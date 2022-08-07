@@ -2,6 +2,12 @@
 
 C:\dev\t3-app
 
+messaging app from tutorial:
+   tRPC V10 IS SO GOOD!!! Oh I built a new app live too
+   https://www.youtube.com/watch?v=YAzzvhaRs6M
+
+   by Theo - ping.gg
+   
 start locally:
    npm run dev
 
