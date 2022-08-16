@@ -11,6 +11,8 @@ export const conversationRouter = t.router({
       z.object({
         userId: z.string(),
         question: z.string().min(0).max(400),
+        senderId: z.string(),
+        senderName: z.string()
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -18,6 +20,8 @@ export const conversationRouter = t.router({
         data: {
           userId: input.userId,
           body: input.question,
+          senderId: input.senderId,
+          senderName: input.senderName
         },
       });
 
