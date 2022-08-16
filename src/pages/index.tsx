@@ -94,13 +94,13 @@ const ConversationView = () => {
 
   const userConversation = []
 
-  for (let i = 0; i < conversation.length; i++) {
+  for (let i = 0; i < conversation?.length; i++) {
     // console.log("conversation.userId:", conversation[i].userId)
-    if (conversation[i].userId === sessionInfo?.user?.id) {
-      userConversation.push([conversation[i].body, conversation[i].createdAt, conversation[i].senderName])
+    if (conversation[i]?.userId === sessionInfo?.user?.id) {
+      userConversation.push([conversation[i]?.body, conversation[i]?.createdAt, conversation[i]?.senderName])
     }
-    if (conversation[i].senderId === sessionInfo?.user?.id) {
-      userConversation.push([conversation[i].body, conversation[i].createdAt, sessionInfo?.user?.name])
+    if (conversation[i]?.senderId === sessionInfo?.user?.id) {
+      userConversation.push([conversation[i]?.body, conversation[i]?.createdAt, sessionInfo?.user?.name])
     }
   }
 

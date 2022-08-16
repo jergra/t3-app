@@ -12,8 +12,7 @@ export const newQuestionRouter = t.router({
         userId: z.string(),
         question: z.string().min(0).max(400),
         senderId: z.string(),
-        senderName: z.string(),
-        color: z.string()
+        senderName: z.string()
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -22,8 +21,7 @@ export const newQuestionRouter = t.router({
           userId: input.userId,
           body: input.question,
           senderId: input.senderId,
-          senderName: input.senderName,
-          color: input.color
+          senderName: input.senderName
         },
       });
 
