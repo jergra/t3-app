@@ -11,13 +11,17 @@ export const usersRouter = t.router({
       z.object({
         userId: z.string(),
         question: z.string().min(0).max(400),
+        senderId: z.string(),
+        senderName: z.string()
       })
     )
     .mutation(async ({ ctx, input }) => {
       const question = await ctx.prisma.question.create({
         data: {
           userId: input.userId,
-          body: input.question
+          body: input.question,
+          senderId: input.senderId,
+          senderName: input.senderName
         },
       });
 
