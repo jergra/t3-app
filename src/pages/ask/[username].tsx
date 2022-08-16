@@ -1,19 +1,39 @@
-import {
+  import {
     GetServerSidePropsContext,
     GetStaticProps,
     InferGetServerSidePropsType,
   } from "next";
   import Head from "next/head";
-  import { useState } from "react";
+  import { useState, useEffect } from "react";
   import { trpc } from "../../utils/trpc";
   import { prisma } from "../../server/db/client";
   import type { User } from "@prisma/client";
+  import Link from 'next/link'
+
+  import { useSession } from "next-auth/react";
+
+  import LoadingSVG from "../../assets/puff.svg";
+  import Image from "next/image";
   
   const AskForm = (props: { user: User }) => {
     if (!props.user) throw new Error("user exists Next, sorry");
-    const { mutate } = trpc.proxy.questions.submit.useMutation();
+    const { mutate, isLoading } = trpc.proxy.questions.submit.useMutation();
     const [question, setQuestion] = useState("");
-  
+    
+    const { data: sessionInfo } = useSession()
+
+    if (isLoading)
+      return (
+        <div className="flex animate-fade-in-delay justify-center p-8">
+          <Image src={LoadingSVG} alt="loading..." width={200} height={200} />
+        </div>
+      );
+
+    // console.log('sessionInfo in [username].tsx:', sessionInfo)
+    // console.log('sessionInfo.user.id in [username].tsx:', sessionInfo?.user?.id)
+    const senderId = sessionInfo?.user?.id
+    const senderName = sessionInfo?.user?.name
+
     return (
       <>
         <Head>
@@ -42,18 +62,20 @@ import {
               onChange={(e) => setQuestion(e.target.value)}
             />
             <div className="p-4" />
-            <button
-              className="flex rounded bg-gray-200 py-2 px-8 font-bold text-gray-800 hover:bg-gray-100"
-              onClick={() => {
-                if (!question) return;
-  
-                mutate({ userId: props.user.id, question });
-  
-                setQuestion("");
-              }}
-            >
-              Submit
-            </button>
+            <Link href='/'>
+              <button
+                className="flex rounded bg-gray-200 py-2 px-8 font-bold text-gray-800 hover:bg-gray-100"
+                onClick={() => {
+                  if (!question) return;
+    
+                  mutate({ userId: props.user.id, question, senderId, senderName });
+    
+                  setQuestion("");
+                }}
+              >
+                  Submit
+              </button>
+            </Link>
           </div>
         </div>
       </>
@@ -67,6 +89,8 @@ import {
       };
     }
     const twitchName = params.username.toLowerCase();
+
+    // console.log('twitchName:', twitchName)
   
     const userInfo = await prisma.user.findFirst({
       where: { name: { equals: twitchName, mode: "insensitive" } },
@@ -77,7 +101,9 @@ import {
         notFound: true,
       };
     }
-  
+
+    // console.log('userInfo:', userInfo)
+    
     return { props: { user: userInfo }, revalidate: 60 };
   };
   

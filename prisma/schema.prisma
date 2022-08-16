@@ -23,6 +23,10 @@ model Question {
     userId String
     user   User   @relation(fields: [userId], references: [id])
 
+    senderId String
+
+    senderName String
+
     status QuestionStatus @default(PENDING)
 
     createdAt DateTime @default(now())

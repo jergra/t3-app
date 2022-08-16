@@ -5,25 +5,19 @@ import { t } from "../trpc";
 import { protectedProcedure } from "../utils/protected-procedure";
 import { pusherServerClient } from "../../common/pusher";
 
-export const newQuestionRouter = t.router({
+export const usersRouter = t.router({
   submit: t.procedure
     .input(
       z.object({
         userId: z.string(),
         question: z.string().min(0).max(400),
-        senderId: z.string(),
-        senderName: z.string(),
-        color: z.string()
       })
     )
     .mutation(async ({ ctx, input }) => {
       const question = await ctx.prisma.question.create({
         data: {
           userId: input.userId,
-          body: input.question,
-          senderId: input.senderId,
-          senderName: input.senderName,
-          color: input.color
+          body: input.question
         },
       });
 
@@ -36,16 +30,12 @@ export const newQuestionRouter = t.router({
       return question;
     }),
 
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    const questions = await ctx.prisma.question.findMany({
-      where: {
-        userId: ctx.session.user.id,
-        status: "PENDING",
-      },
-      orderBy: { id: "asc" },
+  getAll: t.procedure.query(async ({ ctx }) => {
+    const users = await ctx.prisma.user.findMany({
+      
     })
-
-    return questions;
+    // console.log('users', users)
+    return users;
   }),
 
   pin: protectedProcedure

@@ -1,4 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
+import Link from 'next/link'
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { getT3AppAuthSession } from "../server/common/get-server-session";
@@ -32,8 +33,120 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Card } from "../components/card";
 import { AutoAnimate } from "../components/auto-animate";
 
+const UsersView = () => {
+  const { data: sessionInfo } = useSession()
+  const { data, isLoading, refetch } = trpc.proxy.users.getAll.useQuery()
+
+  if (isLoading)
+    return (
+      <div className="flex animate-fade-in-delay justify-center p-8">
+        <Image src={LoadingSVG} alt="loading..." width={200} height={200} />
+      </div>
+    );
+
+  // console.log('data in UsersView in index.tsx:', data)
+  const usernames = data
+    
+  // console.log('usernames in UsersView in index.tsx:', usernames)
+  
+  const filteredUsernames = usernames.filter(username => username.name !== sessionInfo.user.name)
+
+  // console.log('filteredUsernames in UsersView in index.tsx:', filteredUsernames)
+  
+  return (
+    <>
+      {
+        filteredUsernames?.map((username) => (
+          <div key={username.id} className="flex justify-end">
+            <Link href={`/ask/${username.name}`}>
+              <button className={`bg-red-400 flex justify-end p-2 m-1 rounded-xl`}>
+                <div>{username.name}</div>
+                {/* <div>{username.id}</div> */}
+              </button>
+            </Link>
+          </div>
+        ))
+      }
+    </>
+  )
+}
+
+const ConversationView = () => {
+    
+  const { data: sessionInfo } = useSession()
+  
+  const { data, isLoading, refetch } = trpc.proxy.conversation.getAll.useQuery()
+
+  if (isLoading)
+    return (
+      <div className="flex animate-fade-in-delay justify-center p-8">
+        <Image src={LoadingSVG} alt="loading..." width={200} height={200} />
+      </div>
+    );
+
+  // console.log('data in ConversationView in index.tsx:', data)
+
+  // console.log('sessionInfo.user.id in ConversationView in index.tsx:', sessionInfo?.user?.id)
+
+  const conversation = data
+  // console.log('conversation in ConversationView in index.tsx:', conversation)
+  // console.log('conversation.length in ConversationView in index.tsx:', conversation?.length)
+
+  const userConversation = []
+
+  for (let i = 0; i < conversation.length; i++) {
+    // console.log("conversation.userId:", conversation[i].userId)
+    if (conversation[i].userId === sessionInfo?.user?.id) {
+      userConversation.push([conversation[i].body, conversation[i].createdAt, conversation[i].senderName])
+    }
+    if (conversation[i].senderId === sessionInfo?.user?.id) {
+      userConversation.push([conversation[i].body, conversation[i].createdAt, sessionInfo?.user?.name])
+    }
+  }
+
+  const reversedUserConversation = [];
+  userConversation.forEach(element => {
+      reversedUserConversation.unshift(element)
+  });
+
+  // console.log('userConversation in ConversationView in index.tsx:', userConversation)
+  // console.log('reversedUserConversation in ConversationView in index.tsx:', reversedUserConversation)
+
+
+  return (
+    <div className='flex flex-col-reverse h-screen overflow-y-scroll'>
+      {
+        reversedUserConversation?.map((line, index) => (
+          <div key={index}>
+          {
+            line[2] !== sessionInfo?.user?.name ? (
+                <div className='ml-40'>
+                  <div className={`bg-red-400 p-3 m-2 flex flex-col items-end rounded-2xl`}>
+                    <div>{line[0]}</div>
+                    <div className='text-xs'>{line[2]}</div>
+                    <div className='text-xs'>{dayjs(String(line[1])).fromNow()}</div>
+                  </div>
+                </div>
+              ) : (
+                <div className='mr-40'>
+                  <div className={`bg-teal-600 p-3 m-2 flex flex-col items-start rounded-2xl`}>
+                    <div>{line[0]}</div>
+                    <div className='text-xs'>{dayjs(String(line[1])).fromNow()}</div>
+                  </div>  
+                </div>
+              ) 
+          }
+          </div>
+        ))
+      }
+    </div>
+  )
+}
+
 const QuestionsView = () => {
   const { data, isLoading, refetch } = trpc.proxy.questions.getAll.useQuery();
+  // console.log('data in QuestionsView:', data)
+  
   // Refetch when new questions come through
   useSubscribeToEvent("new-question", () => refetch());
 
@@ -70,6 +183,8 @@ const QuestionsView = () => {
         <Image src={LoadingSVG} alt="loading..." width={200} height={200} />
       </div>
     );
+
+  // console.log('data in QuestionsView:', data)
 
   const selectedQuestion = data?.find((q) => q.id === pinnedId);
   const otherQuestions = data?.filter((q) => q.id !== pinnedId) || [];
@@ -142,7 +257,7 @@ function QuestionsViewWrapper() {
 
   return (
     <PusherProvider slug={`user-${sesh.user?.id}`}>
-      <QuestionsView />
+        {/* <QuestionsView /> */}
     </PusherProvider>
   );
 }
@@ -161,7 +276,7 @@ const NavButtons: React.FC<{ userId: string }> = ({ userId }) => {
 
   return (
     <div className="flex gap-2">
-      <button
+      {/* <button
         onClick={copyUrlToClipboard(`/embed/${userId}`)}
         className="flex gap-2 rounded bg-gray-200 p-4 font-bold text-gray-800 hover:bg-gray-100"
       >
@@ -172,7 +287,7 @@ const NavButtons: React.FC<{ userId: string }> = ({ userId }) => {
         className="flex gap-2 rounded bg-gray-200 p-4 font-bold text-gray-800 hover:bg-gray-100"
       >
         Copy Q&A url <FaCopy size={24} />
-      </button>
+      </button> */}
       <button
         onClick={() => signOut()}
         className="flex gap-2 rounded bg-gray-200 p-4 font-bold text-gray-800 hover:bg-gray-100"
@@ -185,6 +300,11 @@ const NavButtons: React.FC<{ userId: string }> = ({ userId }) => {
 
 const HomeContents = () => {
   const { data } = useSession();
+  var imageAddress = []
+
+  // console.log('data in HomeContents in index.tsx:', data)
+  // console.log('data.user.name in HomeContents in index.tsx:', data?.user?.name)
+  // console.log('data.user.image in HomeContents in index.tsx:', data?.user?.image)
 
   if (!data)
     return (
@@ -202,7 +322,7 @@ const HomeContents = () => {
     );
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="w-screen flex min-h-0 flex-col">
       <div className="flex items-center justify-between bg-gray-800 py-4 px-8 shadow">
         <h1 className="flex items-center gap-2 text-2xl font-bold">
           {data.user?.image && (
@@ -216,7 +336,26 @@ const HomeContents = () => {
         </h1>
         <NavButtons userId={data.user?.id!} />
       </div>
-      <LazyQuestionsView />
+      <div className="flex">
+      <div className="flex py-4 pl-6 pr-3">
+        <Card className="flex flex-1 flex-col divide-y divide-gray-800">
+          <div className="flex flex-col py-4 px-8 shadow">
+            <div>
+              Send a message to:
+            </div>
+          </div>
+          <div className="flex flex-col py-4 px-8">
+            <UsersView />
+          </div>
+        </Card>
+        <Card className="flex flex-col divide-y divide-gray-800">
+          <div className="flex flex-col py-4 px-8 min-w-max">
+            <ConversationView />
+          </div>
+        </Card>
+        </div>
+        <LazyQuestionsView />
+      </div>
     </div>
   );
 };
@@ -230,24 +369,23 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="relative flex h-screen w-screen flex-col justify-between">
-        <HomeContents />
-        <div className="flex justify-between bg-black/40 py-4 px-8">
+      <div className="flex w-screen flex-col items-end">
+        <div className="flex justify-center items-center w-screen h-5/6 p-10">
+          <HomeContents />
+        </div>
+        <div className="flex w-screen justify-between bg-black/40 py-4 px-8">
           <span>
-            Quickly created by{" "}
-            <a href="https://twitter.com/t3dotgg" className="text-blue-300">
+            Modified from{" "}
+            <a href="https://github.com/t3-oss/zapdos" className="text-blue-300">
               Theo
             </a>
           </span>
           <div className="flex gap-4">
             <a
-              href="https://github.com/theobr/zapdos"
+              href="https://github.com/jergra/t3-app"
               className="text-blue-300"
             >
               Github
-            </a>
-            <a href="https://t3.gg/discord" className="text-blue-300">
-              Discord
             </a>
           </div>
         </div>
@@ -263,5 +401,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     },
   };
 };
+
 
 export default Home;
