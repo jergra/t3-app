@@ -116,7 +116,7 @@ const ConversationView = () => {
   return (
     <div className='flex flex-col-reverse h-screen overflow-y-scroll'>
       {
-        reversedUserConversation?.map((line, index) => (
+        reversedUserConversation?.map((line:any, index:any) => (
           <div key={index}>
           {
             line[2] !== sessionInfo?.user?.name ? (
