@@ -31,8 +31,8 @@
 
     // console.log('sessionInfo in [username].tsx:', sessionInfo)
     // console.log('sessionInfo.user.id in [username].tsx:', sessionInfo?.user?.id)
-    const senderId = sessionInfo?.user?.id!
-    const senderName = sessionInfo?.user?.name!
+    const senderId = sessionInfo?.user?.id || ''
+    const senderName = sessionInfo?.user?.name || ''
 
     return (
       <>
