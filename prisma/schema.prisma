@@ -23,9 +23,9 @@ model Question {
     userId String
     user   User   @relation(fields: [userId], references: [id])
 
-    senderId String
+    senderId String?
 
-    senderName String
+    senderName String?
 
     status QuestionStatus @default(PENDING)
 
