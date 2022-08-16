@@ -88,7 +88,7 @@ const ConversationView = () => {
 
   // console.log('sessionInfo.user.id in ConversationView in index.tsx:', sessionInfo?.user?.id)
 
-  const conversation = data
+  const conversation:any = data
   // console.log('conversation in ConversationView in index.tsx:', conversation)
   // console.log('conversation.length in ConversationView in index.tsx:', conversation?.length)
 
@@ -104,7 +104,7 @@ const ConversationView = () => {
     }
   }
 
-  const reversedUserConversation = [];
+  const reversedUserConversation:any = [];
   userConversation.forEach(element => {
       reversedUserConversation.unshift(element)
   });
