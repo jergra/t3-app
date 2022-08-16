@@ -49,7 +49,7 @@ const UsersView = () => {
     
   // console.log('usernames in UsersView in index.tsx:', usernames)
   
-  const filteredUsernames = usernames.filter(username => username.name !== sessionInfo.user.name)
+  const filteredUsernames = usernames?.filter(username => username.name !== sessionInfo.user.name)
 
   // console.log('filteredUsernames in UsersView in index.tsx:', filteredUsernames)
   
