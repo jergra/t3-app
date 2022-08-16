@@ -1,4 +1,4 @@
-August 16, 2022
+august 16, 2022
 
 C:\dev\t3-app
 
