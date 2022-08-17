@@ -15,7 +15,8 @@
   import LoadingSVG from "../../assets/puff.svg";
   import Image from "next/image";
   
-  const AskForm = (props: { user: User }) => {
+  const AskForm = (props: { user: User, twitchName: string }) => {
+    // console.log('props.twitchName:', props.twitchName)
     if (!props.user) throw new Error("user exists Next, sorry");
     const { mutate, isLoading } = trpc.proxy.questions.submit.useMutation();
     const [question, setQuestion] = useState("");
@@ -33,6 +34,7 @@
     // console.log('sessionInfo.user.id in [username].tsx:', sessionInfo?.user?.id)
     let senderId:string = sessionInfo?.user?.id as string
     let senderName:string = sessionInfo?.user?.name as string
+    let theUserName:any = props.twitchName
 
     return (
       <>
@@ -51,7 +53,7 @@
             )}
             <div className="p-4" />
             <h1 className="text-2xl font-bold">
-              Ask {props.user?.name} a question!
+              Send {props.user?.name} a message!
             </h1>
             <div className="p-4" />
             <input
@@ -68,7 +70,7 @@
                 onClick={() => {
                   if (!question) return;
     
-                  mutate({ userId: props.user.id, question, senderId, senderName });
+                  mutate({ userId: props.user.id, question, theUserName, senderId, senderName });
     
                   setQuestion("");
                 }}
@@ -104,7 +106,7 @@
 
     // console.log('userInfo:', userInfo)
     
-    return { props: { user: userInfo }, revalidate: 60 };
+    return { props: { user: userInfo, twitchName }, revalidate: 60 };
   };
   
   export async function getStaticPaths() {

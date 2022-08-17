@@ -95,21 +95,23 @@ const ConversationView = () => {
   const userConversation = []
 
   for (let i = 0; i < conversation?.length; i++) {
-    // console.log("conversation.userId:", conversation[i].userId)
+    // console.log("conversation.theUserName:", conversation[i].theUserName)
     if (conversation[i]?.userId === sessionInfo?.user?.id) {
-      userConversation.push([conversation[i]?.body, conversation[i]?.createdAt, conversation[i]?.senderName])
+      userConversation.push([conversation[i]?.body, conversation[i]?.createdAt, conversation[i]?.senderName, conversation[i]?.theUserName])
     }
     if (conversation[i]?.senderId === sessionInfo?.user?.id) {
-      userConversation.push([conversation[i]?.body, conversation[i]?.createdAt, sessionInfo?.user?.name])
+      userConversation.push([conversation[i]?.body, conversation[i]?.createdAt, sessionInfo?.user?.name, conversation[i]?.theUserName])
     }
   }
+
+  // console.log('userConversation in ConversationView in index.tsx:', userConversation)
+  
 
   const reversedUserConversation:any = [];
   userConversation.forEach(element => {
       reversedUserConversation.unshift(element)
   });
 
-  // console.log('userConversation in ConversationView in index.tsx:', userConversation)
   // console.log('reversedUserConversation in ConversationView in index.tsx:', reversedUserConversation)
 
 
@@ -131,6 +133,7 @@ const ConversationView = () => {
                 <div className='mr-40'>
                   <div className={`bg-teal-600 p-3 m-2 flex flex-col items-start rounded-2xl`}>
                     <div>{line[0]}</div>
+                    <div className='text-xs'>to {line[3]}</div>
                     <div className='text-xs'>{dayjs(String(line[1])).fromNow()}</div>
                   </div>  
                 </div>

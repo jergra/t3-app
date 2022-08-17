@@ -11,6 +11,7 @@ export const conversationRouter = t.router({
       z.object({
         userId: z.string(),
         question: z.string().min(0).max(400),
+        theUserName: z.string(),
         senderId: z.string(),
         senderName: z.string()
       })
@@ -20,6 +21,7 @@ export const conversationRouter = t.router({
         data: {
           userId: input.userId,
           body: input.question,
+          theUserName: input.theUserName,
           senderId: input.senderId,
           senderName: input.senderName
         },

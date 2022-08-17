@@ -23,6 +23,8 @@ model Question {
     userId String
     user   User   @relation(fields: [userId], references: [id])
 
+    theUserName       String?
+
     senderId          String
 
     senderName        String
