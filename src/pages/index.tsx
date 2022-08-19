@@ -59,7 +59,7 @@ const UsersView = () => {
         filteredUsernames?.map((username) => (
           <div key={username.id} className="flex">
             <Link href={`/ask/${username.name}`}>
-              <button className={`bg-red-400 flex px-3 py-2 my-2 rounded-3xl`}>
+              <button className={`bg-violet-800 flex px-3 py-2 my-2 rounded-3xl`}>
                 <div>{username.name}</div>
                 {/* <div>{username.id}</div> */}
               </button>
@@ -123,7 +123,7 @@ const ConversationView = () => {
           {
             line[2] !== sessionInfo?.user?.name ? (
                 <div className='ml-40'>
-                  <div className={`bg-red-400 pl-8 pr-8 py-3 m-2 flex flex-col rounded-full`}>
+                  <div className={`bg-violet-800 pl-8 pr-8 py-3 m-2 flex flex-col rounded-full`}>
                     <div className="w-60">{line[0]}</div>
                     <div className='text-xs'>{line[2]}</div>
                     <div className='text-xs'>{dayjs(String(line[1])).fromNow()}</div>
@@ -131,7 +131,7 @@ const ConversationView = () => {
                 </div>
               ) : (
                 <div className='mr-40'>
-                  <div className={`bg-teal-600 pl-8 pr-8 py-3 m-2 flex flex-col items-start rounded-full`}>
+                  <div className={`bg-teal-700 pl-8 pr-8 py-3 m-2 flex flex-col items-start rounded-full`}>
                     <div className="w-60">{line[0]}</div>
                     <div className='text-xs'>to {line[3]}</div>
                     <div className='text-xs'>{dayjs(String(line[1])).fromNow()}</div>
