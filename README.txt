@@ -20,6 +20,9 @@ look at the prisma database:
 another way to look at the database:
     https://railway.app/dashboard
 
+twitch developer console:
+    https://dev.twitch.tv/console/apps
+
 In order to delete a user from the database, first the
 messages to and from that user need to be deleted.
 
