@@ -1,5 +1,6 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import TwitchProvider from "next-auth/providers/twitch";
+import GitHubProvider from "next-auth/providers/github";
 
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -23,6 +24,10 @@ export const authOptions: NextAuthOptions = {
       clientId: env.TWITCH_CLIENT_ID,
       clientSecret: env.TWITCH_CLIENT_SECRET,
     }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET
+    })
     // ...add more providers here
   ],
 };

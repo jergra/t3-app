@@ -312,7 +312,7 @@ const HomeContents = () => {
   if (!data)
     return (
       <div className="flex grow flex-col items-center justify-center">
-        <div className="text-2xl font-bold">Please log in below.</div>
+        <div className="text-2xl font-bold">Please log in below</div>
         <div className="p-4" />
         <button
           onClick={() => signIn("twitch")}
