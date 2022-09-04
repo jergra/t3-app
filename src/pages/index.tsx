@@ -59,7 +59,7 @@ const UsersView = () => {
         filteredUsernames?.map((username) => (
           <div key={username.id} className="flex">
             <Link href={`/ask/${username.name}`}>
-              <button className={`bg-violet-800 flex px-4 py-2 my-2 rounded-2xl`}>
+              <button className={`bg-violet-800 flex px-4 py-2 my-2 rounded-2xl text-sm`}>
                 <div>{username.name}</div>
                 {/* <div>{username.id}</div> */}
               </button>
