@@ -20,6 +20,17 @@ look at the prisma database:
 another way to look at the database:
     https://railway.app/dashboard
 
+About railway:
+    The free tier at railway stops working in the last
+    week of each month. It restarts automatically in the
+    next month, but the password has changed. To get the 
+    new password, to go https://railway.app/dashboard,
+    click on the database, then click PostgresSQL, then
+    click 'Variables', then copy the DATABASE_URL (which contains
+    the new password) and make this the new DATABASE_URL
+    in the .env file. This environmental variable also needs
+    to be updated at Vercel.
+
 twitch developer console:
     https://dev.twitch.tv/console/apps
 
