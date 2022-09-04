@@ -31,14 +31,14 @@ About railway:
     in the .env file. This environmental variable also needs
     to be updated at Vercel.
 
-twitch developer console:
-    https://dev.twitch.tv/console/apps
-
 In order to delete a user from the database, first the
 messages to and from that user need to be deleted.
 
 if the database structure is changed, run:
     npx prisma db push
+
+twitch developer console:
+    https://dev.twitch.tv/console/apps
 
 pusher dashboard:
     https://dashboard.pusher.com/apps/1458910
