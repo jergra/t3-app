@@ -5,7 +5,7 @@ C:\dev\t3-app
 messaging app from modification of the tutorial:
     tRPC V10 IS SO GOOD!!! Oh I built a new app live too
     https://www.youtube.com/watch?v=YAzzvhaRs6M
-
+    
     by Theo - ping.gg
 
 built with the t3 stack:
@@ -20,7 +20,7 @@ look at the prisma database:
 another way to look at the database:
     https://railway.app/dashboard
 
-About railway:
+about railway:
     The free tier at railway stops working in the last
     week of each month. It restarts automatically in the
     next month, but the password has changed. To get the 
