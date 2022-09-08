@@ -132,7 +132,7 @@ const ConversationView = () => {
               ) : (
                 <div className='mr-40'>
                   <div className={`bg-teal-700 pl-5 pr-5 py-3 m-2 flex flex-col items-start rounded-3xl`}>
-                    <div className="w-60 mb-2 leading-tight">{line[0]}</div>
+                    <div className="w-60 mb-2 leading-5">{line[0]}</div>
                     <div className='text-xs'>to {line[3]}</div>
                     <div className='text-xs'>{dayjs(String(line[1])).fromNow()}</div>
                   </div>  
